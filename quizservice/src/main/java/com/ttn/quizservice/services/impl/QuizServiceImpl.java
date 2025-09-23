@@ -7,6 +7,7 @@ import com.ttn.quizservice.services.QuizService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    @Cacheable(value ="Quiz",key="#id")
     public Quiz getOne(Long id) {
         Quiz quiz = quizRepo.findById(id).orElseThrow(()->new RuntimeException("Quiz not found"));
         quiz.setQuestions(questionClient.getQuestionOfQuiz(quiz.getId()));
