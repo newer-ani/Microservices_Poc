@@ -6,6 +6,7 @@ import com.ttn.questionservice.services.QuestionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,11 +34,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Cacheable(value="Question",key="#id")
     public Question getOne(Long id) {
         return questionRepo.findById(id).orElseThrow(()->new RuntimeException("Question not found"));
     }
 
     @Override
+    @Cacheable(value="QuestionByQuiz",key="#quizId")
     public List<Question> getQuestionsOfQuiz(Long quizId) {
         return questionRepo.findByQuizId(quizId);
     }
