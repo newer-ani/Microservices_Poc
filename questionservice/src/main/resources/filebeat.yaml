@@ -1,0 +1,21 @@
+# 1. Point Filebeat to your application's log file
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /home/animesh/Downloads/microservices_poc/logs/spring-boot-app.log
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.message_key: 'message'
+
+# 2. Configure output to point to Elasticsearch
+output.elasticsearch:
+  hosts: ["https://localhost:9200"] # <-- Use HTTPS
+
+  # two lines for authentication
+  username: "elastic"
+  password: "3MiQaWcrh-oX5oMaXcBW"
+
+  #Handling the secure connection
+  ssl.verification_mode: none
+  ssl.certificate_authorities: ["/home/animesh/Downloads/elasticsearch-9.1.5-linux-x86_64/elasticsearch-9.1.5/config/certs/http_ca.crt"]
